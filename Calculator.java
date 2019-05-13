@@ -1,4 +1,4 @@
-﻿// UTF-8
+﻿// UTF-8-encoded
 // Student Name : 이주호(Lee Ju-ho)
 // Student ID :   12161640
 
