@@ -1,4 +1,4 @@
-﻿// Encoding by UTF-8
+﻿// Encoding in UTF-8
 // Student Name : 이주호(Lee Ju-ho)
 // Student ID :   12161640
 
@@ -310,7 +310,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		case KeyEvent.VK_8:
 			if ((e.getModifiers() & 1) != 0)		// shift pressed
 				inputHandler("*");
-			else									// no shift
+			else						// no shift
 				inputHandler("8");
 			break;
 		case KeyEvent.VK_9:
@@ -349,7 +349,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		case 61:
 			if ((e.getModifiers() & 1) != 0)		// shift pressed
 				inputHandler("+");
-			else									// no shift
+			else						// no shift
 				inputHandler("=");
 			break;
 		case 107:
@@ -523,7 +523,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 			break;
 		case "÷":
 			try {
-				result = n1.divide(n2, MathContext.DECIMAL64);
+				result = n1.divide(n2, MathContext.DECIMAL64);	
 				value = result.toString();
 
 				break;
