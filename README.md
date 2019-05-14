@@ -6,7 +6,7 @@ This Java Calculator app is GUI application using Java Swing library. This app d
 ## Features
 - This is a standard calculator app. It calculates arithmetic operations.
 - This app calculates does not concern priority of calculation. It calculates left to right.
-  for example, 3+2×3+2 = 17, not 11.
+  For example, 3+2×3+2 = 17, not 11.
 - If number has devided by zero, it shows "Can't devide by zero". And four operations, ±, and dot buttons become disabled.
   if any button pressed, those buttons become enabled again.
   
