@@ -12,4 +12,4 @@ This Java Calculator app is GUI application using Java Swing library. This app d
   
 ## Getting started
 This application is writtend in java programming language. The source is calculator.java. If you want to open this file and edit, use eclipse.
-If you want to just run this application, you must install [jre](https://java.com/ko/download/) first. And run calculator.jar file then calculator gui will show up.
+If you want to just run this application, you must install [jre](https://java.com/ko/download/) first. And run calculator.jar file. Then calculator gui will show up.
