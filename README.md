@@ -13,5 +13,5 @@ This Java Calculator app is GUI application using Java Swing library. This app g
   If any other buttons pressed, those buttons become enabled again.
   
 ## Getting started
-This application is writtend in java programming language. The source is calculator.java. If you want to open this file and edit, use eclipse.
+This application is writtend in java programming language. The source is calculator.java. If you want to open or edit this file, use eclipse.<br>
 If you want to just run this application, you must install [jre](https://java.com/ko/download/) first. And run calculator.jar file. Then calculator gui will show up.
