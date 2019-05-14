@@ -1,6 +1,6 @@
 # Calculator
-This Java Calculator app is GUI application using Java Swing library. This app design got inspired by Window Calculator. So this app works very simillar to Window Calculator. <br>
-*recent version 1.0.1
+This Java Calculator app is GUI application using Java Swing library. This app design got inspired by Window Calculator. So this app works simillar with Window Calculator. <br>
+<i>*recent version 1.0.1</i>
 
 ![calculator](./image/calculator.jpg)
 
