@@ -1,6 +1,9 @@
-﻿// UTF-8-encoded
-// Student Name : 이주호(Lee Ju-ho)
-// Student ID :   12161640
+
+/*
+ * UTF-8-encoded
+ * Java Swing Calculator app
+ * version 1.0.1
+ * */
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -35,9 +38,18 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 	private String operator;
 	private BigDecimal result;
 	private String value;
-	private boolean numInput;		// checking number input mode, true: delete number on lblValue  and input new number, false: add numbers on lblValue
-	private boolean opInput;		// checking operator input mode, true: delete previous operator and input new operator, false: add operator on lblValue
-	private boolean exception;		// checking exception ArithmeticException
+	private boolean numInput; // checking numbaer input mode, true: delete number on lblValue and input new
+								// number, false: add numbers on lblValue
+	private boolean opInput; // checking operator input mode, true: delete previous operator and input new
+								// operator, false: add operator on lblValue
+	private boolean exception; // checking exception ArithmeticException
+
+	JButton btnPlus;
+	JButton btnSub;
+	JButton btnMul;
+	JButton btnDiv;
+	JButton btnDot;
+	JButton btnPos;
 
 	/**
 	 * Launch the application.
@@ -59,7 +71,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 	 * Create the frame.
 	 */
 	public Calculator() {
-		setTitle("계산기");
+		setTitle("Calculator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
@@ -95,6 +107,10 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		JButton btnCe = new JButton("CE");
 		btnCe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (exception) {// Exception called
+					exception = false;
+					exceptionHandler();
+				}
 				clearEntry();
 			}
 		});
@@ -106,6 +122,10 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		JButton btnC = new JButton("C");
 		btnC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (exception) {// Exception called
+					exception = false;
+					exceptionHandler();
+				}
 				clearAll();
 			}
 		});
@@ -117,6 +137,10 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		JButton btnBspc = new JButton("\u2190");
 		btnBspc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (exception) {// Exception called
+					clearAll();
+					exceptionHandler();
+				}
 				backspace();
 			}
 		});
@@ -125,7 +149,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		btnBspc.setFont(new Font("Arial", Font.PLAIN, 24));
 		panel_1.add(btnBspc);
 
-		JButton btnDiv = new JButton("÷");
+		btnDiv = new JButton("÷");
 		btnDiv.setBackground(new Color(220, 220, 220));
 		btnDiv.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnDiv.addActionListener(this);
@@ -153,7 +177,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		btn9.addKeyListener(this);
 		panel_1.add(btn9);
 
-		JButton btnMul = new JButton("*");
+		btnMul = new JButton("*");
 		btnMul.setBackground(new Color(220, 220, 220));
 		btnMul.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnMul.addActionListener(this);
@@ -181,12 +205,12 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		btn6.addKeyListener(this);
 		panel_1.add(btn6);
 
-		JButton btnMin = new JButton("-");
-		btnMin.setBackground(new Color(220, 220, 220));
-		btnMin.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnMin.addActionListener(this);
-		btnMin.addKeyListener(this);
-		panel_1.add(btnMin);
+		btnSub = new JButton("-");
+		btnSub.setBackground(new Color(220, 220, 220));
+		btnSub.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnSub.addActionListener(this);
+		btnSub.addKeyListener(this);
+		panel_1.add(btnSub);
 
 		JButton btn1 = new JButton("1");
 		btn1.setBackground(new Color(255, 255, 255));
@@ -209,14 +233,14 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		btn3.addKeyListener(this);
 		panel_1.add(btn3);
 
-		JButton btnPlus = new JButton("+");
+		btnPlus = new JButton("+");
 		btnPlus.setBackground(new Color(220, 220, 220));
 		btnPlus.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnPlus.addActionListener(this);
 		btnPlus.addKeyListener(this);
 		panel_1.add(btnPlus);
 
-		JButton btnPos = new JButton("\u00B1");
+		btnPos = new JButton("\u00B1");
 		btnPos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				posAction();
@@ -234,7 +258,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		btn0.addKeyListener(this);
 		panel_1.add(btn0);
 
-		JButton btnDot = new JButton(".");
+		btnDot = new JButton(".");
 		btnDot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addDot();
@@ -242,7 +266,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		});
 		btnDot.addKeyListener(this);
 		btnDot.setBackground(new Color(220, 220, 220));
-		btnDot.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnDot.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnDot);
 
 		JButton btnCal = new JButton("=");
@@ -262,8 +286,10 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 	// number 0~9 and operator button actionListner calls this method
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (exception)			// if ArithmeticException called, clear all
+		if (exception) {// Exception called
 			clearAll();
+			exceptionHandler();
+		}
 		String s = e.getActionCommand();
 		inputHandler(s);
 	}
@@ -272,7 +298,8 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keycode = e.getKeyCode();
-		//System.out.println(e.getKeyCode() + "  " + keycode);		// I checked keycode by this code
+		// System.out.println(e.getKeyCode() + " " + keycode); // I checked keycode by
+		// this code
 		switch (keycode) {
 		case 27:
 			clearAll();
@@ -308,9 +335,9 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 			inputHandler("7");
 			break;
 		case KeyEvent.VK_8:
-			if ((e.getModifiers() & 1) != 0)		// shift pressed
+			if ((e.getModifiers() & 1) != 0) // shift pressed
 				inputHandler("*");
-			else						// no shift
+			else // no shift
 				inputHandler("8");
 			break;
 		case KeyEvent.VK_9:
@@ -347,9 +374,9 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 			inputHandler("9");
 			break;
 		case 61:
-			if ((e.getModifiers() & 1) != 0)		// shift pressed
+			if ((e.getModifiers() & 1) != 0) // shift pressed
 				inputHandler("+");
-			else						// no shift
+			else // no shift
 				inputHandler("=");
 			break;
 		case 107:
@@ -450,7 +477,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 
 	// handling numbers and operator button
 	private void inputHandler(String s) {
-		if (s.compareToIgnoreCase("0") >= 0 && s.compareToIgnoreCase("9") <= 0) {		// number pressed
+		if (s.compareToIgnoreCase("0") >= 0 && s.compareToIgnoreCase("9") <= 0) { // number pressed
 			if (lblValue.getText().equals("0") || numInput) {
 				lblValue.setText(s);
 				numInput = false;
@@ -459,7 +486,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 				lblValue.setText(lblValue.getText() + s);
 				opInput = false;
 			}
-		} else if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("÷")) {		// operator pressed
+		} else if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("÷")) { // operator pressed
 			if (opInput) {
 				operator = s;
 				lblString.setText(lblString.getText().substring(0, lblString.getText().length() - 1));
@@ -479,7 +506,7 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 				opInput = true;
 			}
 			numInput = true;
-		} else if (s.equals("=")) {			// = or enter pressed
+		} else if (s.equals("=")) { // = or enter pressed
 			lblString.setText("");
 			if (opInput && operator == null) {
 			} else if (numInput == false && operator.equals("0")) {
@@ -499,8 +526,10 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 
-	// calculating method, I used BigDecimal library to calculate real number correctly.
-	// If use '+' instead of BigDecimal it makes error. ex) 0.1 + 0.2 = 0.30000000000000004
+	// calculating method, I used BigDecimal library to calculate real number
+	// correctly.
+	// If use '+' instead of BigDecimal it makes error. ex) 0.1 + 0.2 =
+	// 0.30000000000000004
 	private void calculate(String num1, String op, String num2) {
 		n1 = new BigDecimal(num1);
 		n2 = new BigDecimal(num2);
@@ -523,15 +552,34 @@ public class Calculator extends JFrame implements ActionListener, KeyListener {
 			break;
 		case "÷":
 			try {
-				result = n1.divide(n2, MathContext.DECIMAL64);	
+				result = n1.divide(n2, MathContext.DECIMAL64);
 				value = result.toString();
 
 				break;
 			} catch (ArithmeticException e) // exception handling, divided by zero
 			{
 				exception = true;
+				exceptionHandler();
 				value = "Can't devide by zero";
 			}
+		}
+	}
+
+	public void exceptionHandler() {
+		if (exception) {				// if exception true disable buttons
+			btnPlus.setEnabled(false);
+			btnSub.setEnabled(false);
+			btnMul.setEnabled(false);
+			btnDiv.setEnabled(false);
+			btnPos.setEnabled(false);
+			btnDot.setEnabled(false);
+		} else {						// if exception false enable the buttons
+			btnPlus.setEnabled(true);
+			btnSub.setEnabled(true);
+			btnMul.setEnabled(true);
+			btnDiv.setEnabled(true);
+			btnPos.setEnabled(true);
+			btnDot.setEnabled(true);
 		}
 	}
 }
